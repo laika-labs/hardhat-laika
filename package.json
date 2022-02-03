@@ -1,9 +1,9 @@
 {
-  "name": "hardhat-ts-plugin-boilerplate",
+  "name": "hardhat-laika",
   "version": "0.0.1",
-  "description": "Hardhat TypeScript plugin boilerplate",
-  "repository": "github:nomiclabs/hardhat-ts-plugin-boilerplate",
-  "author": "Nomic Labs LLC",
+  "description": "Hardhat Plugin that help syncing ABIs with Laika interface.",
+  "repository": "github:laika-lab/hardhat-laika",
+  "author": "Laika Blockchain Lab",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
