@@ -1,58 +1,51 @@
-# Hardhat TypeScript plugin boilerplate
+# hardhat-laika
+This plugin integrates [Laika](https://getlaika.app) with Hardhat.
 
-This is a sample Hardhat plugin written in TypeScript. Creating a Hardhat plugin
-can be as easy as extracting a part of your config into a different file and
-publishing it to npm.
+## What
 
-This sample project contains an example on how to do that, but also comes with
-many more features:
-
-- A mocha test suite ready to use
-- TravisCI already setup
-- A package.json with scripts and publishing info
-- Examples on how to do different things
+hardhat-laika helps you sync your compile contract with Laika. So you can make a request without having to write a single line of code.
 
 ## Installation
 
-To start working on your project, just run
-
 ```bash
-npm install
+npm install hardhat-laika
 ```
 
-## Plugin development
+Import the plugin in your `hardhat.config.js`:
 
-Make sure to read our [Plugin Development Guide](https://hardhat.org/advanced/building-plugins.html) to learn how to build a plugin.
+```js
+require("hardhat-laika");
+```
 
-## Testing
+Or if you are using TypeScript, in your `hardhat.config.ts`:
 
-Running `npm run test` will run every test located in the `test/` folder. They
-use [mocha](https://mochajs.org) and [chai](https://www.chaijs.com/),
-but you can customize them.
+```ts
+import "hardhat-laika";
+```
 
-We recommend creating unit tests for your own modules, and integration tests for
-the interaction of the plugin with Hardhat and its dependencies.
+## Required plugins
 
-## Linting and autoformat
+This plugin does not require other plugins.
 
-All of Hardhat projects use [prettier](https://prettier.io/) and
-[tslint](https://palantir.github.io/tslint/).
+## Tasks
 
-You can check if your code style is correct by running `npm run lint`, and fix
-it with `npm run lint:fix`.
+This plugin adds the _laika-sync_ task to Hardhat:
+```shell
+npx hardhat laika-sync --contract <contract address>
+```
 
-## Building the project
+## Environment extensions
 
-Just run `npm run build` ️👷
+This plugin extends the Hardhat Runtime Environment by adding a laikaSync function to it.
 
-## README file
+```ts
+hre.laikaSync(hre, contractAddress)
+```
 
-This README describes this boilerplate project, but won't be very useful to your
-plugin users.
+## Configuration
 
-Take a look at `README-TEMPLATE.md` for an example of what a Hardhat plugin's
-README should look like.
+This plugin does not require configuration.
 
-## Migrating from Buidler?
+## Usage
 
-Take a look at [the migration guide](MIGRATION.md)!
+There are no additional steps you need to take for this plugin to work.
