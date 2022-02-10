@@ -37,13 +37,13 @@ const laikaSync = async (hre: HardhatRuntimeEnvironment, contract: string, contr
 task("laika-sync", "Sync your ABIs with Laika")
   .addParam("contract", "Contract name to sync")
   .addOptionalParam(
-    "contractAddress",
+    "address",
     "Address of that specific contract",
     "",
     types.string
   )
   .setAction(async (taskArgs, hre) => {
-    const { contract, contractAddress } = taskArgs;
+    const { contract, address: contractAddress } = taskArgs;
     await laikaSync(hre, contract, contractAddress);
   });
 
