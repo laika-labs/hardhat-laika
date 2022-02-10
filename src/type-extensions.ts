@@ -8,7 +8,8 @@ declare module "hardhat/types/runtime" {
   export interface HardhatRuntimeEnvironment {
     laikaSync: (
       hre: HardhatRuntimeEnvironment,
-      contract: string
+      contract: string,
+      contractAddress: string
     ) => Promise<void>;
   }
 }
