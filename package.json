@@ -1,6 +1,6 @@
 {
   "name": "hardhat-laika",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Hardhat Plugin that help syncing ABIs with Laika interface.",
   "repository": "github:laika-lab/hardhat-laika",
   "author": "Laika Blockchain Lab",
