@@ -1,5 +1,5 @@
 # hardhat-laika
-This plugin integrates [Laika](https://getlaika.app) with Hardhat.
+This plugin integrates [Laika](https://getlaika.app) with Hardhat. For more information please refer to [Introduction to hardhat-laika](!https://medium.com/laika-lab/introduction-to-hardhat-laika-45929073a4a2)
 
 ## What
 
@@ -31,7 +31,7 @@ This plugin does not require other plugins.
 
 This plugin adds the _laika-sync_ task to Hardhat:
 ```shell
-npx hardhat laika-sync --contract <contract address>
+npx hardhat laika-sync --contract <contract_name> --address <OPTIONAL contract_address>
 ```
 
 ## Environment extensions
@@ -39,7 +39,7 @@ npx hardhat laika-sync --contract <contract address>
 This plugin extends the Hardhat Runtime Environment by adding a laikaSync function to it.
 
 ```ts
-hre.laikaSync(hre, contractAddress)
+hre.laikaSync(hre, contract, address)
 ```
 
 ## Configuration
