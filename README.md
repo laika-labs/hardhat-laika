@@ -1,5 +1,5 @@
 # hardhat-laika
-This plugin integrates [Laika](https://getlaika.app) with Hardhat. For more information please refer to [Introduction to hardhat-laika](!https://medium.com/laika-lab/introduction-to-hardhat-laika-45929073a4a2)
+This plugin integrates [Laika](https://getlaika.app) with Hardhat. For more information please refer to [Introduction to hardhat-laika](https://medium.com/laika-lab/introduction-to-hardhat-laika-45929073a4a2)
 
 ## What
 
