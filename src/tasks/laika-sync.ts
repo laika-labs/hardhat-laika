@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task, types } from "hardhat/config";
+import { NomicLabsHardhatPluginError } from "hardhat/plugins";
 import open from "open";
 
 import { endpointUrls } from "../config";
@@ -11,19 +12,36 @@ import { endpointUrls } from "../config";
  * @param {string} contract - The name of the contract you want to sync.
  * @param {string} contractAddress - The Address of that specific contract.
  */
-const laikaSync = async (hre: HardhatRuntimeEnvironment, contract: string, contractAddress: string) => {
+const laikaSync = async (
+  hre: HardhatRuntimeEnvironment,
+  contract: string,
+  contractAddress: string
+) => {
+  if (!hre.config.laika.apiKey) {
+    throw new NomicLabsHardhatPluginError(
+      "hardhat-laika",
+      "Missing apikey for this task"
+    );
+  }
   const { abi } = await hre.artifacts.readArtifact(contract);
   console.log(`Syncing the ABI of ${contract} contract...`);
 
   const { default: fetch } = await import("node-fetch");
-  const response = await fetch(
-    `${endpointUrls.services}/abi-storages`,
-    {
-      method: "POST",
-      body: JSON.stringify({ abi, contractAddress }),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const response = await fetch(`${endpointUrls.services}/abi-storages`, {
+    method: "POST",
+    body: JSON.stringify({ abi, contractAddress }),
+    headers: {
+      "Content-Type": "application/json",
+      apikey: hre.config.laika.apiKey,
+    },
+  });
+
+  if (response.status !== 200) {
+    throw new NomicLabsHardhatPluginError(
+      "hardhat-laika",
+      (await response.json()).message
+    );
+  }
 
   const publicUrl = await response.text();
   const endpoint = `${endpointUrls.interface}/evm/collections/import/${

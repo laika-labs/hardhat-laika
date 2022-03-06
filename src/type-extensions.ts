@@ -4,6 +4,20 @@
 import "hardhat/types/config";
 import "hardhat/types/runtime";
 
+declare module "hardhat/types/config" {
+  export interface HardhatUserConfig {
+    laika?: LaikaConfig;
+  }
+
+  export interface LaikaConfig {
+    apiKey: string;
+  }
+
+  export interface HardhatConfig {
+    laika: LaikaConfig;
+  }
+}
+
 declare module "hardhat/types/runtime" {
   export interface HardhatRuntimeEnvironment {
     laikaSync: (
