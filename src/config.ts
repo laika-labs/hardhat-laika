@@ -1,9 +1,9 @@
-const endpointUrls: {
+const ENDPOINT_URLS: {
   [name: string]: string;
 } = {
-  interface: "https://web.getlaika.app",
-  interface_pro: "https://pro.getlaika.app",
-  services: "https://api.getlaika.app",
+  INTERFACE: "https://web.getlaika.app",
+  INTERFACE_PRO: "https://pro.getlaika.app",
+  SERVICES: "https://api.getlaika.app",
 };
 
-export { endpointUrls };
+export { ENDPOINT_URLS };

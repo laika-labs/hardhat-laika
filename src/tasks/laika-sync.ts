@@ -2,7 +2,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task, types } from "hardhat/config";
 import { NomicLabsHardhatPluginError } from "hardhat/plugins";
 
-import { endpointUrls } from "../config";
+import { ENDPOINT_URLS } from "../config";
 
 /**
  * It takes a contract's ABI and sends it to the backend, which returns a public URL. Then generates a
@@ -34,7 +34,7 @@ const laikaSync = async (
       console.log(`Syncing the ABI of ${contractNames[i]} contract...`);
 
       const { default: fetch } = await import("node-fetch");
-      const response = await fetch(`${endpointUrls.services}/abi-storages`, {
+      const response = await fetch(`${ENDPOINT_URLS.SERVICES}/abi-storages`, {
         method: "POST",
         body: JSON.stringify({
           abi,
@@ -53,12 +53,12 @@ const laikaSync = async (
   if (endpoints.length !== 0) {
     console.log(
       `Check out your request at ${
-        endpointUrls.interface
+        ENDPOINT_URLS.INTERFACE
       }/evm/collections/import/${endpoints.join(",")}`
     );
     console.log(
-      `Check out your request at ${
-        endpointUrls.interface_pro
+      `[PRO] Check out your request at ${
+        ENDPOINT_URLS.INTERFACE_PRO
       }/evm/collections/import/${endpoints.join(",")}`
     );
   }
