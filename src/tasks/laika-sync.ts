@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task, types } from "hardhat/config";
-import open from "open";
+import { NomicLabsHardhatPluginError } from "hardhat/plugins";
 
-import { endpointUrls } from "../config";
+import { ENDPOINT_URLS } from "../config";
 
 /**
  * It takes a contract's ABI and sends it to the backend, which returns a public URL. Then generates a
@@ -11,27 +11,57 @@ import { endpointUrls } from "../config";
  * @param {string} contract - The name of the contract you want to sync.
  * @param {string} contractAddress - The Address of that specific contract.
  */
-const laikaSync = async (hre: HardhatRuntimeEnvironment, contract: string, contractAddress: string) => {
-  const { abi } = await hre.artifacts.readArtifact(contract);
-  console.log(`Syncing the ABI of ${contract} contract...`);
+const laikaSync = async (
+  hre: HardhatRuntimeEnvironment,
+  contract: string,
+  contractAddress: string
+) => {
+  if (!contract) {
+    throw new NomicLabsHardhatPluginError(
+      "hardhat-laika",
+      "Some parameters are missing"
+    );
+  }
 
-  const { default: fetch } = await import("node-fetch");
-  const response = await fetch(
-    `${endpointUrls.services}/abi-storages`,
-    {
-      method: "POST",
-      body: JSON.stringify({ abi, contractAddress }),
-      headers: { "Content-Type": "application/json" },
+  const contractNames = contract.split(",");
+  const contractAddresses = contractAddress?.split(",");
+
+  const endpoints = [];
+
+  for (let i = 0; i < contractNames.length; i++) {
+    try {
+      const { abi } = await hre.artifacts.readArtifact(contractNames[i]);
+      console.log(`Syncing the ABI of ${contractNames[i]} contract...`);
+
+      const { default: fetch } = await import("node-fetch");
+      const response = await fetch(`${ENDPOINT_URLS.SERVICES}/abi-storages`, {
+        method: "POST",
+        body: JSON.stringify({
+          abi,
+          contractAddress: contractAddresses?.[i],
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const publicUrl = await response.text();
+
+      endpoints.push(publicUrl.split("/")[4].split(".")[0]);
+    } catch {
+      console.log(`Fail to sync the ABI of ${contractNames[i]} contract`);
     }
-  );
+  }
 
-  const publicUrl = await response.text();
-  const endpoint = `${endpointUrls.interface}/evm/collections/import/${
-    publicUrl.split("/")[4].split(".")[0]
-  }`;
-
-  console.log(`Check out your request at ${endpoint}`);
-  open(endpoint);
+  if (endpoints.length !== 0) {
+    console.log(
+      `Check out your request at ${
+        ENDPOINT_URLS.INTERFACE
+      }/evm/collections/import/${endpoints.join(",")}`
+    );
+    console.log(
+      `[PRO] Check out your request at ${
+        ENDPOINT_URLS.INTERFACE_PRO
+      }/evm/collections/import/${endpoints.join(",")}`
+    );
+  }
 };
 
 task("laika-sync", "Sync your ABIs with Laika")
